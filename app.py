@@ -7,13 +7,11 @@ import json
 app = Flask(__name__)
 
 
-@app.route("/")
-def home():
+@app.route("/<name>")
+def get_hiscore(name):
 
     # OSRS Hiscores API endpoint
     BASE_URL = 'https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player='
-
-    player = 'Wayocean'
 
     Hiscores = ['Total', 'Attack', 'Defence', 'Strength', 'Hitpoints', 'Ranged', 'Prayer', 'Magic', 'Cooking',
                 'Woodcutting', 'Fletching', 'Fishing', 'Firemaking', 'Crafting', 'Smithing', 'Mining', 'Herblore',
@@ -33,7 +31,7 @@ def home():
 
     data = {}
 
-    response = requests.get(BASE_URL + player).content
+    response = requests.get(BASE_URL + name).content
 
     s = io.StringIO(response.decode('utf-8'))
     num = 0
@@ -47,3 +45,7 @@ def home():
     print(json_data)
 
     return json_data
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
