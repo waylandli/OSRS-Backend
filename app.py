@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_restful import abort
 import requests
 import csv
 import io
@@ -13,6 +14,7 @@ def get_hiscore(name):
     # OSRS Hiscores API endpoint
     BASE_URL = 'https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player='
 
+    # Format of the Hiscores CSV file taken from another repo
     Hiscores = ['Total', 'Attack', 'Defence', 'Strength', 'Hitpoints', 'Ranged', 'Prayer', 'Magic', 'Cooking',
                 'Woodcutting', 'Fletching', 'Fishing', 'Firemaking', 'Crafting', 'Smithing', 'Mining', 'Herblore',
                 'Agility', 'Thieving', 'Slayer', 'Farming', 'Runecrafting', 'Hunter', 'Construction',
@@ -29,20 +31,25 @@ def get_hiscore(name):
                 'Thermonuclear Smoke Devil', 'TzKal-Zuk', 'TzTok-Jad', 'Venenatis', "Vet'ion", 'Vorkath', 'Wintertodt',
                 'Zalcano', 'Zulrah']
 
+    # Empty Dictionary to hold in results
     data = {}
 
-    response = requests.get(BASE_URL + name).content
+    # Make a call to Hiscores API
+    response = requests.get(BASE_URL + name)
+    if response.status_code == 404:
+        abort(404, message="Name not found")
+    r = response.content
 
-    s = io.StringIO(response.decode('utf-8'))
+    # Read CSV file line by line into dictionary with correct name
     num = 0
-
+    s = io.StringIO(r.decode('utf-8'))
     csv_reader = csv.reader(s)
     for line in csv_reader:
         data[Hiscores[num]] = line
         num += 1
 
+    # Creates JSON format
     json_data = json.dumps(data)
-    print(json_data)
 
     return json_data
 
