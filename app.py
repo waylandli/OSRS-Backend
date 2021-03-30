@@ -15,7 +15,7 @@ def get_hiscore(name):
     BASE_URL = 'https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player='
 
     # Format of the Hiscores CSV file taken from another repo
-    Hiscores = ['Total', 'Attack', 'Defence', 'Strength', 'Hitpoints', 'Ranged', 'Prayer', 'Magic', 'Cooking',
+    Hiscores = [ 'Total', 'Attack', 'Defence', 'Strength', 'Hitpoints', 'Ranged', 'Prayer', 'Magic', 'Cooking',
                 'Woodcutting', 'Fletching', 'Fishing', 'Firemaking', 'Crafting', 'Smithing', 'Mining', 'Herblore',
                 'Agility', 'Thieving', 'Slayer', 'Farming', 'Runecrafting', 'Hunter', 'Construction',
                 'League Points', 'Bounty Hunter - Hunter', 'Bounty Hunter - Rogue',
